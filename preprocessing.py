@@ -5,7 +5,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
 
 
-def preprocessing_24_hour():
+def preprocessing_24_hour(data):
     #Load Data
     data = pd.read_csv("raw_data/training_v2.csv")
     pd.set_option("display.max_columns", None)
