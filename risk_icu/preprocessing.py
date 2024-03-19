@@ -133,7 +133,7 @@ def preprocessing_1_hour(data):
     no_nulls = no_d1.drop(columns=columns_to_drop_3)
 
     # Remove columns
-    d_features_to_drop = ["h1_sysbp_noninvasive_max","h1_sysbp_noninvasive_min","h1_mbp_noninvasive_max","h1_mbp_noninvasive_min","h1_diasbp_noninvasive_max", "h1_diasbp_noninvasive_min","height","icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
+    d_features_to_drop = ["apache_4a_icu_death_prob","h1_sysbp_noninvasive_max","h1_sysbp_noninvasive_min","h1_mbp_noninvasive_max","h1_mbp_noninvasive_min","h1_diasbp_noninvasive_max", "h1_diasbp_noninvasive_min","height","icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
     h1_data = no_nulls.drop(columns= d_features_to_drop)
 
         #Define X and ys
