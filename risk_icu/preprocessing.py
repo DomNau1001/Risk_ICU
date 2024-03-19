@@ -64,11 +64,6 @@ def preprocessing_24_hour(data):
     X_post = pd.concat([cats_post, nums_post], axis = 1, sort = False)
 
 
-    #Handle outliers
-    boolean_mask = (X_post["d1_resprate_max"] < 70) & (X_post["d1_resprate_min"] < 50) & (X_post["d1_bun_max"] < 80) & (X_post["d1_bun_min"] < 80) & (X_post["d1_calcium_max"] < 10) & (X_post["d1_calcium_min"] < 10)
-    X_post = X_post[boolean_mask]
-
-
     #Encoding
     X_post_cats = X_post[["ethnicity", "gender", "icu_admit_source","diabetes_mellitus", "cirrhosis", "hepatic_failure", "immunosuppression", "solid_tumor_with_metastasis"]]
     X_post_nums = X_post.drop(columns = ["ethnicity", "gender", "diabetes_mellitus", "cirrhosis", "hepatic_failure", "immunosuppression", "solid_tumor_with_metastasis", "icu_admit_source"])
