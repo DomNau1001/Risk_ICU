@@ -108,4 +108,4 @@ def preprocessing_24_hour(data):
     #Feature Selection
     X_preprocessed.drop(columns = ["d1_bun_min", "d1_creatinine_min", "d1_hematocrit_max", "d1_hematocrit_min", "d1_hemaglobin_max", "d1_platelets_max"], inplace = True)
 
-    return X_preprocessed
+    return X_preprocessed, y_binary_preprocessed
