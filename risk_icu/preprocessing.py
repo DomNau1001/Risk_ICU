@@ -132,11 +132,11 @@ def preprocessing_1_hour(data):
     columns_to_drop_3 = non_null_counts[non_null_counts < threshold].index.tolist()
     no_nulls = no_d1.drop(columns=columns_to_drop_3)
 
-        # Remove columns
-    d_features_to_drop = ["icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
+    # Remove columns
+    d_features_to_drop = ["h1_sysbp_noninvasive_max","h1_sysbp_noninvasive_min","h1_mbp_noninvasive_max","h1_mbp_noninvasive_min","h1_diasbp_noninvasive_max", "h1_diasbp_noninvasive_min","height","icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
     h1_data = no_nulls.drop(columns= d_features_to_drop)
 
-        #Define X and y
+        #Define X and ys
     y = h1_data["hospital_death"]
     X = h1_data.drop(columns = "hospital_death")
 
