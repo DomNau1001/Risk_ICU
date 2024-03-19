@@ -1,5 +1,10 @@
 raw_data/
+
 dominik-dataprep_and_analysis.ipynb
 dominik-dataset_exploration.ipynb
+modelling.ipynb
+
 .python-version
 .python-version
+
+preprocessing.py
