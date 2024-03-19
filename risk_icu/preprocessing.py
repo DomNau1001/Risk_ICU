@@ -26,6 +26,9 @@ def preprocessing_24_hour(data):
 
     final_df = final_df[columns_to_keep].drop(columns = ["elective_surgery"])
 
+    boolean_mask = (final_df["d1_resprate_max"] < 70)
+    final_df = final_df[boolean_mask]
+
 
     #Drop columns with >30% NA
     missing_data = final_df.isnull().sum().sort_values(ascending=False)/len(data)*100
