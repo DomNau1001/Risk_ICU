@@ -7,11 +7,6 @@ from imblearn.over_sampling import RandomOverSampler
 
 
 def preprocessing_24_hour(data):
-    #Load Data
-    data = pd.read_csv("raw_data/training_v2.csv")
-    pd.set_option("display.max_columns", None)
-    pd.set_option("display.max_rows", 500)
-
 
     #Clear Data
     final_df = data.drop(columns = ["hospital_admit_source","readmission_status", "pre_icu_los_days", "encounter_id", "patient_id", "hospital_id", "icu_stay_type", "icu_type", "icu_id", "apache_3j_bodysystem", "apache_2_bodysystem", "apache_4a_hospital_death_prob", "height", "weight", "aids", "lymphoma", "leukemia"])
@@ -113,21 +108,18 @@ def preprocessing_24_hour(data):
 
 
 def preprocessing_1_hour(data):
-#Load Data
-    data = pd.read_csv("raw_data/training_v2.csv")
-    pd.set_option("display.max_columns", None)
-    pd.set_option("display.max_rows", 500)
 
-        # remove columns containing the word "apache"
+    # remove columns containing the word "apache"
     columns_to_drop = [col for col in data.columns if 'apache' in col and col != "apache_4a_icu_death_prob"]
     no_apache = data.drop(columns=columns_to_drop)
 
-        # remove d1 data
+
+    # remove d1 data
     columns_to_drop_2 = [col for col in no_apache.columns if 'd1' in col]
     no_d1 = no_apache.drop(columns=columns_to_drop_2)
 
 
-        # Remove columns where data null data is over 30%
+    # Remove columns where null data is over 30%
     threshold = 30000
     non_null_counts = no_d1.notnull().sum()
     columns_to_drop_3 = non_null_counts[non_null_counts < threshold].index.tolist()
@@ -147,6 +139,7 @@ def preprocessing_1_hour(data):
     y = h1_data["hospital_death"]
     X = h1_data.drop(columns = "hospital_death")
 
+
     #Impute Missing Data
     nums_pre = X.select_dtypes(include=[np.number])
 
@@ -164,6 +157,7 @@ def preprocessing_1_hour(data):
 
     X_post = pd.concat([cats_post, nums_post], axis = 1, sort = False)
 
+
     #Encoding
     X_post_cats = X_post[["gender"]]
     X_post_nums = X_post.drop(columns = ["gender"])
@@ -176,11 +170,13 @@ def preprocessing_1_hour(data):
 
     X_post = pd.concat([X_post_cats, X_post_nums], axis = 1, sort = False)
 
+
     #Scaling
     mm_scaler = MinMaxScaler()
 
     X_preprocessed = mm_scaler.fit_transform(X_post)
     X_preprocessed = pd.DataFrame(X_preprocessed, columns = X_post.columns)
+
 
     #Target Encoding
     label_encoder = LabelEncoder()
