@@ -126,13 +126,17 @@ def preprocessing_1_hour(data):
 
 
     # Remove columns
+    #initially
     d_features_to_drop = ["apache_4a_icu_death_prob","h1_sysbp_noninvasive_max","h1_sysbp_noninvasive_min","h1_mbp_noninvasive_max","h1_mbp_noninvasive_min","h1_diasbp_noninvasive_max", "h1_diasbp_noninvasive_min","height","icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
     h1_data = no_nulls.drop(columns= d_features_to_drop)
+    #after SHAP evaluation
+    more_to_drop = ["h1_mbp_max", "h1_mbp_min","h1_diasbp_max","h1_diasbp_min","ethnicity","icu_admit_source","apache_4a_icu_death_prob","solid_tumor_with_metastasis","immunosuppression","hepatic_failure","diabetes_mellitus","hospital_id", "cirrhosis"]
+    h1_data_2 = h1_data.drop(columns= more_to_drop)
 
 
     #Define X and ys
-    y = h1_data["hospital_death"]
-    X = h1_data.drop(columns = "hospital_death")
+    y = h1_data_2["hospital_death"]
+    X = h1_data_2.drop(columns = "hospital_death")
 
 
     #Impute Missing Data
