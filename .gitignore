@@ -6,6 +6,9 @@ Notebooks_Models
 .python-version
 
 risk_icu/__pycache__
+APIs__pycache__
+APIs/backend/__pycache__
+APIs/frontend/__pycache__
 
 .env
 .envrc
