@@ -6,3 +6,6 @@ Notebooks_Models
 .python-version
 
 risk_icu/__pycache__
+
+.env
+.envrc
