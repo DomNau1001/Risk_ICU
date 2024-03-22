@@ -1,4 +1,5 @@
 import os
+import pickle
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, recall_score
@@ -31,6 +32,9 @@ def model_h24(X,y):
 
 
 def save_model(model):
-    LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "risk_icu", "risk_icu", "training_outputs")
-    model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", ".h5")
-    model.save(model_path)
+    file_name = "model_saved.pkl"
+    pickle.dump(model, open(file_name, "wb"))
+
+    #LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "risk_icu", "risk_icu", "training_outputs")
+    #model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", ".json")
+    #model.save_model(model_path)

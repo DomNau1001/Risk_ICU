@@ -45,7 +45,7 @@ def predict_after_1_hour(
         heartrate_min = hr_min))
 
     X_pre = preprocessing_1_hour(X)
-    model = load_model()
+    model = load_model("model_saved.pkl")
     prediction = model.predict(X_pre)
 
     return {"prediction": prediction}
