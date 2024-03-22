@@ -2,3 +2,10 @@ fastapi
 uvicorn
 streamlit
 requests
+
+pandas
+numpy
+sklearn
+imblearn
+xgboost
+tensorflow

@@ -1,12 +1,8 @@
 raw_data/
 
-dominik-dataprep_and_analysis.ipynb
-dominik-dataset_exploration.ipynb
-modelling.ipynb
-FranciscoNB.ipynb
+Notebooks
+Notebooks_Models
 
 .python-version
-
-Notebooks_Models
 
 risk_icu/__pycache__

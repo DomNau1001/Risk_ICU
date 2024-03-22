@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 
 
 def preprocessing_24_hour(data):
@@ -32,7 +32,6 @@ def preprocessing_24_hour(data):
 
 
     #Define X and y
-    y = final_df["hospital_death"]
     X = final_df.drop(columns = "hospital_death")
 
 
@@ -87,63 +86,22 @@ def preprocessing_24_hour(data):
     X_preprocessed = pd.DataFrame(X_preprocessed, columns = X_post.columns)
 
 
-    #Target Encoding
-    label_encoder = LabelEncoder()
-
-    y_binary_preprocessed = label_encoder.fit_transform(y)
-    y_binary_preprocessed = pd.DataFrame(y_binary_preprocessed)
-
-    y_cont_preprocessed = data["apache_4a_icu_death_prob"]
-    y_cont_preprocessed = pd.DataFrame(y_cont_preprocessed)
-    y_cont_preprocessed.rename(columns = {"apache_4a_icu_death_prob":"mortality_prob"}, inplace = True)
-
-
     #Feature Selection
     X_preprocessed.drop(columns = ["d1_bun_min", "d1_creatinine_min", "d1_hematocrit_max", "d1_hematocrit_min", "d1_hemaglobin_max", "d1_platelets_max"], inplace = True)
 
-    return X_preprocessed, y_binary_preprocessed
+    return X_preprocessed
 
 
 
 
-def preprocessing_1_hour(data):
-
-    # remove columns containing the word "apache"
-    columns_to_drop = [col for col in data.columns if 'apache' in col and col != "apache_4a_icu_death_prob"]
-    no_apache = data.drop(columns=columns_to_drop)
-
-
-    # remove d1 data
-    columns_to_drop_2 = [col for col in no_apache.columns if 'd1' in col]
-    no_d1 = no_apache.drop(columns=columns_to_drop_2)
-
-
-    # Remove columns where null data is over 30%
-    threshold = 30000
-    non_null_counts = no_d1.notnull().sum()
-    columns_to_drop_3 = non_null_counts[non_null_counts < threshold].index.tolist()
-    no_nulls = no_d1.drop(columns=columns_to_drop_3)
-
-
-    # Remove features
-    #initially
-    d_features_to_drop = ["apache_4a_icu_death_prob","h1_sysbp_noninvasive_max","h1_sysbp_noninvasive_min","h1_mbp_noninvasive_max","h1_mbp_noninvasive_min","h1_diasbp_noninvasive_max", "h1_diasbp_noninvasive_min","height","icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
-    h1_data = no_nulls.drop(columns= d_features_to_drop)
-    #after SHAP evaluation
-    more_to_drop = ["h1_mbp_max", "h1_mbp_min","h1_diasbp_max","h1_diasbp_min","ethnicity","icu_admit_source","apache_4a_icu_death_prob","solid_tumor_with_metastasis","immunosuppression","hepatic_failure","diabetes_mellitus","hospital_id", "cirrhosis"]
-    h1_data_2 = h1_data.drop(columns= more_to_drop)
-
-
-    #Define X and ys
-    y = h1_data_2["hospital_death"]
-    X = h1_data_2.drop(columns = "hospital_death")
-
+def preprocessing_1_hour(X):
 
     #Impute Missing Data
     nums_pre = X.select_dtypes(include=[np.number])
+    nums_pre.drop(columns = "elective_surgery", inplace = True)
 
     cats_pre = X.select_dtypes(exclude = np.number)
-
+    cats_pre["elective_surgery"] = X["elective_surgery"]
 
     imputer_cats = SimpleImputer(strategy = "most_frequent")
     imputer_nums = SimpleImputer(strategy = "median")
@@ -158,14 +116,18 @@ def preprocessing_1_hour(data):
 
 
     #Encoding
-    X_post_cats = X_post[["gender"]]
-    X_post_nums = X_post.drop(columns = ["gender"])
+    X_post_cats = X_post[["gender", "elective_surgery"]]
+    X_post_nums = X_post.drop(columns = ["gender", "elective_surgery"])
 
     ohe = OneHotEncoder(sparse_output=False, drop = "if_binary", handle_unknown="ignore")
 
     ohe.fit(X_post_cats[["gender"]])
     X_post_cats[ohe.get_feature_names_out()] = ohe.transform(X_post_cats[["gender"]])
     X_post_cats.drop(columns = "gender", inplace = True)
+
+    ohe.fit(X_post_cats[["elective_surgery"]])
+    X_post_cats[ohe.get_feature_names_out()] = ohe.transform(X_post_cats[["elective_surgery"]])
+    X_post_cats.drop(columns = "elective_surgery", inplace = True)
 
     X_post = pd.concat([X_post_cats, X_post_nums], axis = 1, sort = False)
 
@@ -176,15 +138,4 @@ def preprocessing_1_hour(data):
     X_preprocessed = mm_scaler.fit_transform(X_post)
     X_preprocessed = pd.DataFrame(X_preprocessed, columns = X_post.columns)
 
-
-    #Target Encoding
-    label_encoder = LabelEncoder()
-
-    y_binary_preprocessed = label_encoder.fit_transform(y)
-    y_binary_preprocessed = pd.DataFrame(y_binary_preprocessed)
-
-    y_cont_preprocessed = data["apache_4a_icu_death_prob"]
-    y_cont_preprocessed = pd.DataFrame(y_cont_preprocessed)
-    y_cont_preprocessed.rename(columns = {"apache_4a_icu_death_prob":"mortality_prob"}, inplace = True)
-
-    return X_preprocessed, y_binary_preprocessed
+    return X_preprocessed

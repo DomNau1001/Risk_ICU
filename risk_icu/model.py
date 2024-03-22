@@ -1,3 +1,5 @@
+import os
+
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, recall_score
 
@@ -26,3 +28,9 @@ def model_h1(X,y):
 
 def model_h24(X,y):
     pass
+
+
+def save_model(model):
+    LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "risk_icu", "risk_icu", "training_outputs")
+    model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", ".h5")
+    model.save(model_path)
