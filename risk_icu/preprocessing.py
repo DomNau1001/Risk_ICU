@@ -3,6 +3,7 @@ import numpy as np
 
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
+from imblearn.over_sampling import RandomOverSampler
 
 
 def preprocessing_24_hour(data):
@@ -125,7 +126,7 @@ def preprocessing_1_hour(data):
     no_nulls = no_d1.drop(columns=columns_to_drop_3)
 
 
-    # Remove columns
+    # Remove features
     #initially
     d_features_to_drop = ["apache_4a_icu_death_prob","h1_sysbp_noninvasive_max","h1_sysbp_noninvasive_min","h1_mbp_noninvasive_max","h1_mbp_noninvasive_min","h1_diasbp_noninvasive_max", "h1_diasbp_noninvasive_min","height","icu_id","readmission_status","weight","encounter_id", "patient_id","hospital_admit_source", "icu_stay_type", "icu_type", "pre_icu_los_days", "leukemia", "aids", "lymphoma"]
     h1_data = no_nulls.drop(columns= d_features_to_drop)
@@ -141,14 +142,9 @@ def preprocessing_1_hour(data):
 
     #Impute Missing Data
     nums_pre = X.select_dtypes(include=[np.number])
-    nums_pre.drop(columns = ["diabetes_mellitus", "cirrhosis", "hepatic_failure", "immunosuppression", "solid_tumor_with_metastasis"], inplace = True)
 
     cats_pre = X.select_dtypes(exclude = np.number)
-    cats_pre["diabetes_mellitus"] = X["diabetes_mellitus"]
-    cats_pre["cirrhosis"] = X["cirrhosis"]
-    cats_pre["hepatic_failure"] = X["hepatic_failure"]
-    cats_pre["immunosuppression"] = X["immunosuppression"]
-    cats_pre["solid_tumor_with_metastasis"] = X["solid_tumor_with_metastasis"]
+
 
     imputer_cats = SimpleImputer(strategy = "most_frequent")
     imputer_nums = SimpleImputer(strategy = "median")
@@ -163,22 +159,14 @@ def preprocessing_1_hour(data):
 
 
     #Encoding
-    X_post_cats = X_post[["ethnicity", "gender", "icu_admit_source","diabetes_mellitus", "cirrhosis", "hepatic_failure", "immunosuppression", "solid_tumor_with_metastasis"]]
-    X_post_nums = X_post.drop(columns = ["ethnicity", "gender", "diabetes_mellitus", "cirrhosis", "hepatic_failure", "immunosuppression", "solid_tumor_with_metastasis", "icu_admit_source"])
+    X_post_cats = X_post[["gender"]]
+    X_post_nums = X_post.drop(columns = ["gender"])
 
     ohe = OneHotEncoder(sparse_output=False, drop = "if_binary", handle_unknown="ignore")
-
-    ohe.fit(X_post_cats[["ethnicity"]])
-    X_post_cats[ohe.get_feature_names_out()] = ohe.transform(X_post_cats[["ethnicity"]])
-    X_post_cats.drop(columns = "ethnicity", inplace = True)
 
     ohe.fit(X_post_cats[["gender"]])
     X_post_cats[ohe.get_feature_names_out()] = ohe.transform(X_post_cats[["gender"]])
     X_post_cats.drop(columns = "gender", inplace = True)
-
-    ohe.fit(X_post_cats[["icu_admit_source"]])
-    X_post_cats[ohe.get_feature_names_out()] = ohe.transform(X_post_cats[["icu_admit_source"]])
-    X_post_cats.drop(columns = "icu_admit_source", inplace = True)
 
     X_post = pd.concat([X_post_cats, X_post_nums], axis = 1, sort = False)
 
