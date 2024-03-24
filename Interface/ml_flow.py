@@ -1,6 +1,6 @@
 import pandas as pd
-from risk_icu.model import model_h1, save_model
-from risk_icu.preprocessing import preprocessing_1_hour
+from ml_logic.model import model_h1, save_model
+from ml_logic.preprocessing import preprocessing_1_hour
 
 def main():
     #data
