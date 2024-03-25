@@ -60,7 +60,7 @@ def predict_after_1_hour(
 
     X_pre = preprocessing_1_hour(X)
     model = load_model("model_saved.pkl")
-    prediction = predict(model, X_pre)
+    prediction = predict(model, X_pre)[0][1]
 
     return {"prediction": float(prediction)}
 

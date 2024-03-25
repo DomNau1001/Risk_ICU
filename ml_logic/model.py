@@ -42,5 +42,5 @@ def load_model(file_name):
 
 
 def predict(model, X):
-    result = model.predict(X)
+    result = model.predict_proba(X)
     return result
