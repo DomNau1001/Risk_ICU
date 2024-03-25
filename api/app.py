@@ -33,7 +33,7 @@ if option == "Initial Risk Assessment":
     response = requests.get(url, params=params).json()["prediction"]
 
     # Display prediction result
-    st.markdown(f"**Predicted Risk: ${response}**")
+    st.markdown(f"**Predicted Risk: {response}**")
 
 
 elif option == "Advanced Risk Assessment":

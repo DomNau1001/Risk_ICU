@@ -175,6 +175,7 @@ def preprocessing_1_hour(data):
 
     X_preprocessed = mm_scaler.fit_transform(X_post)
     X_preprocessed = pd.DataFrame(X_preprocessed, columns = X_post.columns)
+    X_preprocessed.sort_index(axis=1, inplace=True)
 
 
     #Target Encoding

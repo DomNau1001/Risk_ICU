@@ -35,8 +35,14 @@ def predict_after_1_hour(
     else:
         el_sur = 0
 
+    male_gender = 0
+    if gender == "M":
+        male_gender = 1
+    else:
+        male_gender = 0
+
     X = pd.DataFrame(dict(
-        gender = [gender],
+        gender_M = [male_gender],
         age = [age],
         bmi = [bmi],
         elective_surgery = [el_sur],
@@ -56,7 +62,7 @@ def predict_after_1_hour(
     model = load_model("model_saved.pkl")
     prediction = predict(model, X_pre)
 
-    return {"prediction": prediction}
+    return {"prediction": float(prediction)}
 
 
 @app.get("/predict_day")
