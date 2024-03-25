@@ -32,6 +32,7 @@ def model_h1(X,y):
 
 
 def model_h24(X,y):
+    """for 24 model"""
     X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, stratify=y, random_state = 42)
 
     oversampler = RandomOverSampler()
