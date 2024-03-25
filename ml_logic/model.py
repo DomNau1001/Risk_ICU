@@ -13,9 +13,9 @@ import xgboost as xgb
 
 
 def model_h1(X,y):
-    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, stratify=y, random_state = 42)
+    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, stratify=y)
 
-    oversampler = RandomOverSampler()
+    oversampler = RandomOverSampler(random_state=42)
     X_train_balanced, y_train_balanced = oversampler.fit_resample(X_train, y_train)
 
     model = xgb.XGBClassifier(subsample= 0.8, n_estimators= 300, max_depth= 5, learning_rate= 0.1, reg_lambda= 0, gamma= 5, colsample_bytree= 0.8, alpha= 5)
@@ -83,5 +83,5 @@ def load_model(file_name):
 
 
 def predict(model, X):
-    result = model.predict(X)
+    result = model.predict_proba(X)
     return result
