@@ -34,7 +34,14 @@ if option == "Initial Risk Assessment":
     response = round(response *100, 2)
 
     # Display prediction result
-    st.markdown(f"**Predicted Risk: {response}%**")
+    if response >=70:
+        st.markdown("High Risk")
+    elif response >=30 and response <70:
+        st.markdown("Intermediate Risk")
+    else:
+        st.markdown("**Low Risk**")
+
+    st.markdown(f"*Predicted Risk: {response}%*")
 
 
 elif option == "Advanced Risk Assessment":
