@@ -1,6 +1,6 @@
 import pandas as pd
+import pickle
 from fastapi import FastAPI
-from api.backend.api_preprocessor import preprocessing_1_hour, preprocessing_24_hour
 from ml_logic.model import load_model, predict
 
 app = FastAPI()
@@ -58,8 +58,11 @@ def predict_after_1_hour(
         h1_inr_max = [inr_max],
         h1_inr_min = [inr_min]))
 
-    X_pre = preprocessing_1_hour(X)
-    model = load_model("model_saved.pkl")
+    mm_scaler = pickle.load(open("mm_scaler.pkl", "rb"))
+
+
+    X_pre = mm_scaler.transform(X)
+    model = load_model("1_h_model.pkl")
     prediction = predict(model, X_pre)[0][1]
 
     return {"prediction": float(prediction)}

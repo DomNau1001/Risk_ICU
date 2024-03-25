@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pickle
 
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
@@ -85,6 +86,9 @@ def preprocessing_24_hour(data):
 
     X_preprocessed = mm_scaler.fit_transform(X_post)
     X_preprocessed = pd.DataFrame(X_preprocessed, columns = X_post.columns)
+
+    file_name = "mm_scaler.pkl"
+    pickle.dump(mm_scaler, open(file_name, "wb"))
 
 
     #Target Encoding
@@ -176,6 +180,9 @@ def preprocessing_1_hour(data):
     X_preprocessed = mm_scaler.fit_transform(X_post)
     X_preprocessed = pd.DataFrame(X_preprocessed, columns = X_post.columns)
     X_preprocessed.sort_index(axis=1, inplace=True)
+
+    file_name = "mm_scaler.pkl"
+    pickle.dump(mm_scaler, open(file_name, "wb"))
 
 
     #Target Encoding

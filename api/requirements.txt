@@ -5,8 +5,7 @@ requests
 
 pandas
 numpy
-sklearn
+scikit-learn
 imblearn
 xgboost
-tensorflow
-pickle
+pickle-mixin
