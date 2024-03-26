@@ -12,3 +12,5 @@ APIs/frontend/__pycache__
 
 .env
 .envrc
+
+.env.yaml

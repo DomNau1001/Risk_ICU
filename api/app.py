@@ -45,7 +45,7 @@ if initial_button:
     hr_max = col2.number_input("Heart Rate (bpm/min)", value =0)
 
     # Call API to get prediction result using one_hour_patient_data
-    url = "http://localhost:8000/predict_hour"
+    url = "https://riskicu-ulvty4hw7q-ew.a.run.app/predict_hour"
     params = {
         "bmi": bmi,
         "age": age,
@@ -114,7 +114,7 @@ elif advanced_button:
 
 
     # Call API to get prediction result using twenty_four_hour_patient_data
-    url = "http://localhost:8000/predict_day"
+    url = "https://riskicu-ulvty4hw7q-ew.a.run.app/predict_day"
     params = {"age": age,
               "bun_max": bun_max,
               "sysbp_min": sysbp_min,
