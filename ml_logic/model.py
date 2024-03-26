@@ -13,7 +13,7 @@ import xgboost as xgb
 
 
 def model_h1(X,y):
-    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, stratify=y)
+    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, stratify=y, random_state=42)
 
     oversampler = RandomOverSampler(random_state=42)
     X_train_balanced, y_train_balanced = oversampler.fit_resample(X_train, y_train)
@@ -32,10 +32,9 @@ def model_h1(X,y):
 
 
 def model_h24(X,y):
-    """for 24 model"""
     X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, stratify=y, random_state = 42)
 
-    oversampler = RandomOverSampler()
+    oversampler = RandomOverSampler(random_state=42)
     X_res, y_res = oversampler.fit_resample(X_train, y_train)
 
     tree = DecisionTreeClassifier(class_weight = "balanced", min_samples_split=12, min_samples_leaf=6, max_leaf_nodes=45, max_features=None, max_depth = 2, criterion = "entropy", splitter = "random", min_impurity_decrease=0.0)
@@ -44,24 +43,14 @@ def model_h24(X,y):
     ada_tree = AdaBoostClassifier(tree, n_estimators=100, learning_rate = 0.2, algorithm = "SAMME.R",random_state=42)
     ada_tree.fit(X_res, y_res)
 
-    xgb_model = xgb.XGBClassifier(
-    objective='binary:logistic',
-    n_estimators=100,
-    reg_alpha=0.5,
-    max_depth=3,
-    learning_rate=0.1
-    )
-
+    xgb_model = xgb.XGBClassifier(objective='binary:logistic', n_estimators=100, reg_alpha=0.5, max_depth=3,learning_rate=0.1)
     xgb_model.fit(X_res, y_res)
 
     classifier1 = ada_tree
     classifier2 = xgb_model
 
-    model = StackingClassifier(
-    estimators=[('tree', classifier1), ('xgb', classifier2)],
-    final_estimator=MLPClassifier(hidden_layer_sizes=50, activation='logistic', learning_rate='adaptive', solver='adam', batch_size=64)
-    )
-
+    model = StackingClassifier(estimators=[('tree', classifier1), ('xgb', classifier2)],
+    final_estimator=MLPClassifier(hidden_layer_sizes=50, activation='logistic', learning_rate='adaptive', solver='adam', batch_size=64))
     model.fit(X_res, y_res)
 
     y_score = model.predict_proba(X_test)[:, 1]
@@ -74,8 +63,8 @@ def model_h24(X,y):
     return model, auc_score, recall
 
 
-def save_model(model):
-    file_name = "model_saved.pkl"
+def save_model(model, name):
+    file_name = f"{name}_saved.pkl"
     pickle.dump(model, open(file_name, "wb"))
 
 
