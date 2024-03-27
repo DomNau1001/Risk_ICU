@@ -28,7 +28,7 @@ def model_h1(X,y):
     predictions = model.predict(X_test)
     recall = recall_score(y_test, predictions, average='binary')
 
-    return model, auc_score, recall
+    return model, auc_score, recall, X_test, y_test
 
 
 def model_h24(X,y):
@@ -60,7 +60,7 @@ def model_h24(X,y):
     predictions = model.predict(X_test)
     recall = recall_score(y_test, predictions, average='binary')
 
-    return model, auc_score, recall
+    return model, auc_score, recall, X_test, y_test
 
 
 def save_model(model, name):
