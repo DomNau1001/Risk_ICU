@@ -5,8 +5,8 @@ import base64
 #define webpage
 PAGES = {
     'Homepage': None,
-    'Initial RA (1 hour)': 'initial_page',
-    'Advanced RA (24 hours)': 'advanced_page'}
+    'Initial Risk Assessment': 'initial_page',
+    'Advanced Risk Assessment': 'advanced_page'}
 
 
 def display_homepage():
@@ -41,28 +41,24 @@ def display_homepage():
     center_vertically(image_path, text)
     # Additional content after the container
     st.write("")
-    st.write("Summary:")
-    st.write("Risk ICU is a tool for assessing risk in ICU patients in the first 24 hrs in the ICU.")
-    st.write("In the context of the final project for the Le Wagon Data Science Bootcamp, we have trained and deployed two machine learning models:")
-    st.write("- The 1 hr model, is intended to be used as a quick first assessment for ICU patients. The data points used to train the model were minimum, simulating those available for risk assessments in ICUs during the patient’s first hour. To predict the risk, we used the XGBoost model, which was optimized using random search.")
-    st.write("- The 24 hr model was trained with patient's values available after 24 hs in the ICU. To predict the risk, we used a combination of decision trees and XGBoost.")
-    st.write("To train and test our models we used data from the first 24 hours of intensive care unit, as made available by MIT's GOSSIS community initiative, with privacy certification from the Harvard Privacy Lab. This dataset contains more than 130,000 hospital Intensive Care Unit (ICU) visits from patients, spanning a one-year timeframe.")
+    st.write("Risk_ICU is a tool to assess the mortality risk of patients on the Intensive Care Unit (ICU). It can be used either for a quick initial risk stratification at the first patient encounter or with more laboratory values and further clinical assessment as an advanced risk stratification device.")
+    st.write("In the context of the project weeks for the Le Wagon Data Science Bootcamp (Batch 1601), we have trained and deployed two machine learning models:")
+    st.write("- The initial risk assessment model, is intended to be used by medical personnel as a quick first assessment for patients that have just entered the ICU. The data points used to train the model were minimum, simulating only those parameters 24/7 available for risk assessments in all ICUs independently of the hospital´s level of care. To predict the risk, we used a XGBoost model, which was optimized using random search after extensive data preprocessing.")
+    st.write("- The advanced risk assessment model was trained with more complex values that e.g. require clinical laboratories. We opted against the usage of parameters that require a specific technical infrastructure to make the application available to as many hospitals as possible. For this task we built a machine learning structure optimized via random search consisting of a Decision Tree model with Adaptive Boosting combined through stacking with a XGBoost model.")
+    st.write("To train and test our models we used patient data from the first 24 hours of an ICU stay, as made available by MIT's GOSSIS community initiative, with privacy certification from the Harvard Privacy Lab. This dataset contains more than 130,000 individual ICU visits from multiple countries, spanning a one-year timeframe.")
+    st.write("Please use the navigation bar on the left to get to the models")
     st.subheader("Authors:")
-    st.write("- Dominik Naumann: [Connect](https://www.linkedin.com/)")
-    st.write("- Francisco Chaves")
-    st.write("- William Brudenell")
-    st.write("- Julia Decker")
-    st.write("You can add more content here, such as:")
-    st.write("- Links to documentation or resources")
-    st.write("- Contact information")
-    st.write("- Information about the development team")
-    st.write("- Any other relevant information")
+    st.write("- Julia Decker [Connect on LinkedIn](https://www.linkedin.com/in/juliadeckerpotsdam/)")
+    st.write("- William Brudenell [Connect on LinkedIn](https://www.linkedin.com/in/willbrudenell/)")
+    st.write("- Francisco Chaves [Connect on LinkedIn](https://www.linkedin.com/in/francisco-chaves-b32798277)")
+    st.write("- Dominik Naumann [Connect on LinkedIn](https://www.linkedin.com/in/dr-med-univ-dominik-naumann-37217595)")
+    st.write("Feel free to check out the [slides](https://docs.google.com/presentation/d/1VPHEraQF5XaodlEiBV8Vn6eY_enAjMVZZRviK91wvWA/edit?usp=sharing) and the [presentation](https://www.youtube.com) for this project")
 
 
 
 # Based on the user's selection, present corresponding interface
 def display_initial_risk_assessment():
-    st.subheader("Initial Risk Assessment (1 hour)")
+    st.subheader("Initial Risk Assessment")
     st.subheader("Please Enter Patient Details:")
     col1, col2 = st.columns(2)
 
@@ -121,7 +117,7 @@ def display_initial_risk_assessment():
 
 
 def display_advanced_risk_assessment():
-    st.subheader("Advanced Risk Assessment (24 hours)")
+    st.subheader("Advanced Risk Assessment")
     st.subheader("Please Enter Patient Details:")
     col1, col2 = st.columns(2)
 
