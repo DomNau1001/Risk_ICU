@@ -71,13 +71,14 @@ def display_initial_risk_assessment():
     cirrhosis = col1.selectbox("Cirrhosis", ["yes", "no"])
     immunosuppression = col2.selectbox("Immunosuppression", ["yes", "no"])
     glucose_min = col1.number_input("Glucose (mmol/L)", value = 0)
-    mpb_min = col2.number_input("Mean Arterial Pressure (mmHg)", value = 0)
+    lactate_max = col2.number_input("Lactate (mmol/L)", value = 0)
     sysbp_min = col1.number_input("Systolic Blood Pressure (mmHg)", value = 0)
-    rr_min = col2.number_input("Respiratory Rate (breaths/min)", value = 0)
-    lactate_max = col1.number_input("Lactate (mmol/L)", value = 0)
+    mpb_min = col2.number_input("Mean Arterial Pressure (mmHg)", value = 0)
+    hr_max = col1.number_input("Heart Rate (bpm/min)", value =0)
     temp_min = col2.number_input("Temperature (°C)", value =0)
-    spo2_max = col1.number_input("SpO2 (%)", value =0)
-    hr_max = col2.number_input("Heart Rate (bpm/min)", value =0)
+    rr_min = col1.number_input("Respiratory Rate (breaths/min)", value = 0)
+    spo2_max = col2.number_input("SpO2 (%)", value =0)
+
 
     # Call API to get prediction result using one_hour_patient_data
     url = "https://riskicu-ulvty4hw7q-ew.a.run.app/predict_hour"
@@ -125,28 +126,28 @@ def display_advanced_risk_assessment():
     bmi = col2.number_input("BMI (kg/qm)", value = 0)
     temp_min = col1.number_input("Minimal Temperature (°C)", value =0)
     temp_max = col2.number_input("Maximal Temperature (°C)", value =0)
-    wbc_min = col1.number_input("Minimal White Blood Cell Count (10^9/L)", value =0)
-    wbc_max = col2.number_input("Maximal White Blood Cell Count (10^9/L)", value =0)
     hr_max = col2.number_input("Maximal Heart Rate (bpm/min)", value =0)
     hr_min = col1.number_input("Minimal Heart Rate (bpm/min)", value =0)
-    glucose_min = col1.number_input("Minimal Glucose (mmol/L)", value = 0)
-    sodium_min = col2.number_input("Minimal Sodium (mmol/L)", value = 0)
-    rr_max = col2.number_input("Maximal Respiratory Rate (breaths/min)", value = 0)
-    rr_min = col1.number_input("Minimal Respiratory Rate (breaths/min)", value = 0)
     sysbp_max = col2.number_input("Maximal Systolic Blood Pressure (mmHg)", value = 0)
     sysbp_min = col1.number_input("Minimal Systolic Blood Pressure (mmHg)", value = 0)
+    rr_max = col2.number_input("Maximal Respiratory Rate (breaths/min)", value = 0)
+    rr_min = col1.number_input("Minimal Respiratory Rate (breaths/min)", value = 0)
     mbp_min = col1.number_input("Mean Arterial Pressure (mmHg)", value = 0)
     hco3_max = col2.number_input("Maximal Bicarbonate (mmol/L)", value = 0)
+    glucose_min = col1.number_input("Minimal Glucose (mmol/L)", value = 0)
+    sodium_min = col2.number_input("Minimal Sodium (mmol/L)", value = 0)
+    wbc_min = col1.number_input("Minimal White Blood Cell Count (10^9/L)", value =0)
+    wbc_max = col2.number_input("Maximal White Blood Cell Count (10^9/L)", value =0)
     bun_max = col1.number_input("BUN (mmol/L)", value = 0)
     crea_max = col2.number_input("Creatinine (mmol/L)", value = 0)
     platelets_min = col1.number_input("Minimal Platelets (mmol/L)", value = 0)
     hema_min = col2.number_input("Minimal Hemaglobin (g/dL)", value = 0)
-    spo2_min = st.number_input("Minimal SpO2 (%)", value =0)
     gcs_eyes = st.selectbox("GCS Eyes", [1, 2, 3, 4])
     gcs_verbal = st.selectbox("GCS Verbal", [1, 2, 3, 4, 5])
     gcs_motor = st.selectbox("GCS Motor", [1, 2, 3, 4, 5, 6])
     ventilated = st.selectbox("Patient on Ventilation?", ["yes", "no"])
-    icu_admit = st.selectbox("Patient Admitted from A&E?", ["yes", "no"])
+    spo2_min = st.number_input("Minimal SpO2 (%)", value =0)
+    icu_admit = st.selectbox("Patient Admitted from the Emergency Room?", ["yes", "no"])
 
 
     # Call API to get prediction result using twenty_four_hour_patient_data
@@ -209,9 +210,9 @@ def run_UI():
     # Display the selected page
     if page == 'Homepage':
         display_homepage()
-    elif page == 'Initial RA (1 hour)':
+    elif page == 'Initial Risk Assessment':
         display_initial_risk_assessment()
-    elif page == 'Advanced RA (24 hours)':
+    elif page == 'Advanced Risk Assessment':
         display_advanced_risk_assessment()
 
 if __name__ == '__main__':
